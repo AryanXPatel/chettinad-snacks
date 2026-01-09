@@ -1,0 +1,140 @@
+.policyHeader {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.policyHeader h1 {
+    margin-bottom: 0.5rem;
+}
+
+.lastUpdated {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.policyContent {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section {
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-coffee);
+}
+
+.section p {
+    color: #555;
+    line-height: 1.7;
+}
+
+.zoneGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.zoneCard {
+    background: var(--color-cream);
+    padding: 1.5rem;
+    border-radius: var(--radius-soft);
+    border: 1px solid #E0E0E0;
+    text-align: center;
+}
+
+.zoneCard h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-coffee);
+}
+
+.zoneTime {
+    font-weight: 700;
+    color: var(--color-chilli);
+    margin-bottom: 0.75rem !important;
+}
+
+.zoneCard p:last-child {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.shippingTable {
+    background: var(--color-cream);
+    border-radius: var(--radius-soft);
+    overflow: hidden;
+    border: 1px solid #E0E0E0;
+}
+
+.tableRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.tableRow:last-child {
+    border-bottom: none;
+}
+
+.tableRow.highlighted {
+    background: rgba(198, 65, 51, 0.05);
+}
+
+.price {
+    font-weight: 700;
+    color: var(--color-coffee);
+}
+
+.freeTag {
+    background: linear-gradient(135deg, var(--color-chilli), #D75A4A);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.list li {
+    padding: 0.75rem 0 0.75rem 2rem;
+    position: relative;
+    color: #555;
+    line-height: 1.6;
+}
+
+.list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-chilli);
+    font-weight: 700;
+}
+
+.link {
+    color: var(--color-chilli);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .zoneGrid {
+        grid-template-columns: 1fr;
+    }
+}

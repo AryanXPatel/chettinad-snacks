@@ -1,0 +1,158 @@
+.productContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    padding: 4rem 0;
+    align-items: start;
+}
+
+.productGallery {
+    border-radius: var(--radius-soft);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.productImage {
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease;
+    cursor: zoom-in;
+}
+
+.productGallery:hover .productImage {
+    transform: scale(1.1);
+}
+
+.badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--color-chilli);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 2;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
+.ratingRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stars {
+    color: var(--color-turmeric);
+    font-size: 1.2rem;
+}
+
+.ratingText {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.priceRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    font-size: 2rem;
+    color: var(--color-chilli);
+    font-weight: 700;
+}
+
+.comparePrice {
+    font-size: 1rem;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.description {
+    font-size: 1.15rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.optionGroup {
+    margin-bottom: 2rem;
+}
+
+.optionLabel {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.sizeBtn {
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #DADADA;
+    background: white;
+    color: #666;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sizeBtn:hover {
+    border-color: var(--color-coffee);
+}
+
+.sizeBtnActive {
+    border: 2px solid var(--color-coffee);
+    background: var(--color-coffee);
+    color: white;
+}
+
+.addToCartRow {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.trustPoints {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.trustPoint {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.trustPoint span {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .productContainer {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .addToCartRow {
+        flex-direction: column;
+    }
+}

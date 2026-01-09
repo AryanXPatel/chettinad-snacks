@@ -1,0 +1,104 @@
+.footer {
+    background: var(--color-footer-bg);
+    color: white;
+    padding: 6rem 0 2rem;
+    border-top: 5px solid var(--color-turmeric);
+}
+
+.footerContent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.column {
+    flex: 1;
+    min-width: 150px;
+}
+
+.column:first-child {
+    min-width: 250px;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 1.5rem;
+    filter: brightness(0) invert(1);
+}
+
+.tagline {
+    opacity: 0.7;
+    line-height: 1.6;
+    max-width: 30ch;
+    font-size: 0.95rem;
+}
+
+.columnTitle {
+    color: var(--color-turmeric);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.linkList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.linkList a {
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    font-size: 0.95rem;
+}
+
+.linkList a:hover {
+    opacity: 1;
+}
+
+.bottomBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+}
+
+.copyright {
+    font-size: 0.9rem;
+    opacity: 0.5;
+}
+
+.payments {
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0.8;
+}
+
+.paymentBadge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .footerContent {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .column {
+        min-width: 100%;
+    }
+
+    .bottomBar {
+        flex-direction: column;
+        text-align: center;
+    }
+}

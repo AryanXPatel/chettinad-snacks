@@ -1,0 +1,136 @@
+.storyHero {
+    background: var(--color-coffee);
+    color: white;
+    padding: 6rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 50px 50px;
+}
+
+.heroTitle {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.heroSubtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+.decorCircle1 {
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 40%;
+    padding-bottom: 40%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.decorCircle2 {
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 40%;
+    padding-bottom: 40%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.splitFeature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 6rem;
+}
+
+.splitFeature.reversed {
+    direction: rtl;
+}
+
+.splitFeature.reversed>* {
+    direction: ltr;
+}
+
+.featureLabel {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.featureTitle {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.featureText {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.featureImage {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-soft);
+    box-shadow: var(--shadow-card);
+}
+
+.valueGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.valueCard {
+    background: var(--color-cream);
+    padding: 2rem;
+    border-radius: var(--radius-soft);
+    border: 1px solid #E0E0E0;
+}
+
+.valueIcon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.valueCard h3 {
+    margin-bottom: 0.5rem;
+}
+
+.valueCard p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.ctaSection {
+    background: var(--color-butter-murukku);
+    padding: 6rem 0;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .splitFeature {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .splitFeature.reversed {
+        direction: ltr;
+    }
+
+    .storyHero {
+        border-radius: 0;
+    }
+}

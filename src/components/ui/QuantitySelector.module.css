@@ -1,0 +1,42 @@
+.selector {
+    display: flex;
+    align-items: center;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    width: fit-content;
+    overflow: hidden;
+}
+
+.btn {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--color-coffee);
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.btn:hover:not(:disabled) {
+    background: #F5F5F5;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.input {
+    width: 50px;
+    text-align: center;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-coffee);
+    background: transparent;
+}
+
+.input:focus {
+    outline: none;
+}

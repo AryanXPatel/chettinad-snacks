@@ -1,0 +1,162 @@
+.policyHeader {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.policyHeader h1 {
+    margin-bottom: 0.5rem;
+}
+
+.lastUpdated {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.policyContent {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.guaranteeBanner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, rgba(198, 65, 51, 0.08), rgba(198, 65, 51, 0.02));
+    border: 2px solid var(--color-chilli);
+    padding: 2rem;
+    border-radius: var(--radius-soft);
+    margin-bottom: 3rem;
+}
+
+.guaranteeIcon {
+    font-size: 3rem;
+}
+
+.guaranteeBanner h3 {
+    color: var(--color-chilli);
+    margin-bottom: 0.25rem;
+}
+
+.guaranteeBanner p {
+    color: #666;
+}
+
+.section {
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-coffee);
+}
+
+.section p {
+    color: #555;
+    line-height: 1.7;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.list li {
+    padding: 0.75rem 0 0.75rem 2rem;
+    position: relative;
+    color: #555;
+    line-height: 1.6;
+}
+
+.list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-chilli);
+    font-weight: 700;
+}
+
+.listWarning {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.listWarning li {
+    padding: 0.75rem 0 0.75rem 2rem;
+    position: relative;
+    color: #666;
+    line-height: 1.6;
+}
+
+.listWarning li::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    color: #999;
+    font-weight: 700;
+}
+
+.timelineCard {
+    background: var(--color-cream);
+    padding: 2rem;
+    border-radius: var(--radius-soft);
+    border: 1px solid #E0E0E0;
+}
+
+.timelineItem {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    position: relative;
+}
+
+.timelineItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 40px;
+    bottom: 0;
+    width: 2px;
+    background: #DDD;
+}
+
+.timelineDot {
+    width: 18px;
+    height: 18px;
+    background: var(--color-chilli);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.timelineItem h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-coffee);
+}
+
+.timelineItem p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.link {
+    color: var(--color-chilli);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .guaranteeBanner {
+        flex-direction: column;
+        text-align: center;
+    }
+}

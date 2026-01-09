@@ -1,0 +1,140 @@
+.splitScreen {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 200px);
+}
+
+.visualSide {
+    background: linear-gradient(135deg, var(--color-chilli) 0%, #8B2E20 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+.backLink {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 2;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    color: var(--color-coffee);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s;
+}
+
+.backLink:hover {
+    transform: scale(1.05);
+}
+
+.visualContent {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.visualContent h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.visualContent p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.formSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+    background: var(--color-cream);
+}
+
+.formSide h1 {
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 3rem;
+    max-width: 400px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-coffee);
+}
+
+.loginPrompt {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.loginLink {
+    color: var(--color-chilli);
+    font-weight: 700;
+}
+
+/* Success State */
+.successState {
+    text-align: center;
+}
+
+.successIcon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    margin: 0 auto 2rem;
+    box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);
+}
+
+.successState h2 {
+    margin-bottom: 1rem;
+}
+
+.successText {
+    color: #666;
+    max-width: 350px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .splitScreen {
+        grid-template-columns: 1fr;
+    }
+
+    .visualSide {
+        min-height: 250px;
+    }
+
+    .formSide {
+        padding: 2rem;
+    }
+}

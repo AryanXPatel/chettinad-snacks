@@ -1,0 +1,178 @@
+.splitScreen {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 200px);
+}
+
+.visualSide {
+    background: url('/images/lifestyle_teatime_1767719728352.png') no-repeat center center/cover;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+.visualSide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(62, 39, 35, 0.2) 0%, rgba(62, 39, 35, 0.7) 100%);
+}
+
+.backLink {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 2;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    color: var(--color-coffee);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s;
+}
+
+.backLink:hover {
+    transform: scale(1.05);
+}
+
+.visualContent {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.visualContent h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.visualContent p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.formSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 4rem;
+    background: var(--color-cream);
+    overflow-y: auto;
+}
+
+.formSide h1 {
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-coffee);
+}
+
+.passwordHint {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 0.25rem;
+}
+
+.checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--color-chilli);
+}
+
+.checkbox a {
+    color: var(--color-chilli);
+    font-weight: 600;
+}
+
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+    color: #999;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #DDD;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.loginPrompt {
+    text-align: center;
+}
+
+.loginLink {
+    color: var(--color-chilli);
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .splitScreen {
+        grid-template-columns: 1fr;
+    }
+
+    .visualSide {
+        min-height: 200px;
+    }
+
+    .formSide {
+        padding: 2rem;
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}

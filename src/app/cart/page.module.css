@@ -1,0 +1,174 @@
+.shippingProgress {
+    margin-bottom: 2rem;
+}
+
+.shippingProgress p {
+    margin-bottom: 0.5rem;
+}
+
+.progressBar {
+    height: 8px;
+    background: #EEE;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--color-turmeric);
+    transition: width 0.3s ease;
+}
+
+.cartGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-top: 2rem;
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+}
+
+.cartItem {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #EEE;
+}
+
+.itemImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.itemDetails {
+    flex: 1;
+}
+
+.itemHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.itemHeader h3 {
+    font-size: 1.1rem;
+}
+
+.itemPrice {
+    font-weight: 700;
+}
+
+.itemMeta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.itemActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quantityControl {
+    display: flex;
+    align-items: center;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+}
+
+.quantityControl button {
+    background: none;
+    border: none;
+    padding: 0.2rem 0.6rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.quantityControl span {
+    padding: 0 0.5rem;
+    font-weight: 600;
+}
+
+.removeBtn {
+    color: #999;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.removeBtn:hover {
+    color: var(--color-chilli);
+}
+
+.wishlistLink {
+    color: var(--color-coffee);
+    font-weight: 600;
+}
+
+.wishlistLink:hover {
+    color: var(--color-chilli);
+}
+
+.summaryCard {
+    background: var(--color-cream);
+    padding: 2rem;
+    border-radius: var(--radius-soft);
+    border: 1px solid #E0E0E0;
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.summaryRow span:first-child {
+    color: #666;
+}
+
+.summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #EEE;
+    margin-bottom: 2rem;
+}
+
+.secureNote {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+@media (max-width: 768px) {
+    .cartGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .summaryCard {
+        position: static;
+    }
+}

@@ -1,0 +1,251 @@
+.header {
+    padding: 1rem 0;
+    background: var(--color-cream);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 253, 245, 0.95);
+}
+
+.logo {
+    text-decoration: none;
+}
+
+.logoImage {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logoText {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--color-coffee);
+}
+
+.nav {
+    display: flex;
+    gap: 2rem;
+}
+
+.desktopActions {
+    display: flex;
+}
+
+/* Mobile Elements - Hidden on Desktop */
+.mobileActions {
+    display: none;
+}
+
+/* ===== HAMBURGER MENU ===== */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 200;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: var(--color-coffee);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-origin: center;
+}
+
+/* Hamburger to X animation */
+.hamburgerOpen span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburgerOpen span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburgerOpen span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ===== MOBILE CART BUTTON ===== */
+.cartBtn {
+    position: relative;
+    font-size: 1.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.cartBadge {
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    background: var(--color-chilli);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== BACKDROP ===== */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 150;
+}
+
+.backdropVisible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===== MOBILE DRAWER ===== */
+.mobileDrawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 85%;
+    max-width: 320px;
+    height: 100vh;
+    background: white;
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.mobileDrawerOpen {
+    transform: translateX(0);
+}
+
+.drawerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #EEE;
+}
+
+.drawerTitle {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-coffee);
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.closeBtn:hover {
+    color: var(--color-coffee);
+}
+
+.drawerLinks {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.drawerLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-coffee);
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 1px solid #F5F5F5;
+}
+
+.drawerLink:hover {
+    background: var(--color-cream);
+    color: var(--color-chilli);
+}
+
+.linkIcon {
+    font-size: 1.3rem;
+}
+
+.drawerFooter {
+    padding: 1.5rem;
+    border-top: 1px solid #EEE;
+    background: #FAFAFA;
+}
+
+.drawerLoginBtn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: var(--color-coffee);
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.drawerLoginBtn:hover {
+    background: var(--color-coffee-light);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .desktopActions {
+        display: none;
+    }
+
+    .mobileActions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .logoText {
+        font-size: 1.25rem;
+    }
+}
+
+/* ===== DESKTOP OVERRIDE - Hide mobile elements completely ===== */
+@media (min-width: 769px) {
+
+    .mobileDrawer,
+    .backdrop {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}

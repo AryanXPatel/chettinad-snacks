@@ -1,0 +1,30 @@
+.strip {
+    background: var(--color-turmeric);
+    color: var(--color-coffee);
+    padding: 1rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    transform: rotate(-1deg) scale(1.02);
+}
+
+.content {
+    display: inline-flex;
+    animation: marquee 30s linear infinite;
+}
+
+.content span {
+    padding-right: 1rem;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

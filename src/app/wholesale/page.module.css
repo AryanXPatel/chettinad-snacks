@@ -1,0 +1,98 @@
+.wholesaleHero {
+    background: var(--color-butter-murukku);
+    padding: 4rem 0;
+}
+
+.heroGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.heroGrid h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.heroText {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.heroImage {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-soft);
+    box-shadow: var(--shadow-card);
+    transform: rotate(-2deg);
+}
+
+.benefitsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.benefitCard {
+    padding: 2rem;
+    border: 1px solid #EEE;
+    border-radius: var(--radius-soft);
+}
+
+.benefitIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.benefitCard h3 {
+    margin-bottom: 0.5rem;
+}
+
+.benefitCard p {
+    color: #666;
+}
+
+.formSection {
+    background: var(--color-cream);
+    padding: 6rem 0;
+}
+
+.formIntro {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form textarea {
+    font-family: inherit;
+    resize: vertical;
+}
+
+@media (max-width: 768px) {
+    .heroGrid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .benefitsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}
