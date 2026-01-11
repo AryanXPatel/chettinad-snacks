@@ -12,6 +12,18 @@ interface ProductCardProps {
     index?: number;
 }
 
+// Truncate description to first sentence or max chars
+function truncateDescription(desc: string, maxLength: number = 60): string {
+    // Remove HTML-like artifacts and get clean text
+    const clean = desc.replace(/<[^>]*>/g, '').trim();
+    // Get first sentence
+    const firstSentence = clean.split(/[.!?]/)[0];
+    if (firstSentence.length <= maxLength) {
+        return firstSentence + '.';
+    }
+    return firstSentence.substring(0, maxLength).trim() + '...';
+}
+
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     const { addItem } = useCart();
 
@@ -60,7 +72,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                 </div>
 
                 <h3 className={styles.title}>{product.title}</h3>
-                <p className={styles.description}>{product.description}</p>
+                <p className={styles.description}>{truncateDescription(product.description)}</p>
 
                 <div className={styles.priceRow}>
                     <span className={styles.price}>₹{product.price}</span>

@@ -1,27 +1,77 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/lib/cart';
+import { getAllProducts, isShopifyEnabled, TransformedProduct } from '@/lib/shopify';
 import { IconStarFilled, IconLeaf, IconExplosion, IconWarning, StarRating } from '@/components/ui/Icons';
 import styles from './page.module.css';
 
+// Static fallback products
+const staticFeaturedProducts = [
+  { id: 'thenkuzhal', slug: 'thenkuzhal-thenkulal', title: 'Thenkuzhal', description: 'The classic honey-coil crunch.', price: 99, image: '/images/product_thenkuzhal_1767719548617.png', bgColor: '#FFFDF5' },
+  { id: 'kai-murukku', slug: 'kai-murukku', title: 'Kai Murukku', description: 'Hand-twisted artisan spirals.', price: 189, image: '/images/product_kai_murukku_1767719570423.png', bgColor: '#FFE0B2' },
+  { id: 'athirasam', slug: 'athirasam', title: 'Athirasam', description: 'Soft jaggery sweet delight.', price: 199, image: '/images/product_athirasam_1767719634660.png', bgColor: '#E1BEE7' },
+  { id: 'seepu-seedai', slug: 'seepu-seedai', title: 'Seepu Seedai', description: 'Ridged crispy rice balls.', price: 149, image: '/images/product_seedai_1767719614268.png', bgColor: '#B2DFDB' },
+];
+
+// Truncate description helper
+function truncateDesc(desc: string): string {
+  const clean = desc.replace(/<[^>]*>/g, '').trim();
+  const firstSentence = clean.split(/[.!?]/)[0];
+  return firstSentence.length <= 50 ? firstSentence + '.' : firstSentence.substring(0, 50) + '...';
+}
+
 export default function Home() {
   const { addItem } = useCart();
+  const [featuredProducts, setFeaturedProducts] = useState(staticFeaturedProducts);
 
-  // Featured products exactly as in the original HTML
-  const featuredProducts = [
-    { id: 'thenkuzhal', title: 'Thenkuzhal', description: 'The classic honey-coil crunch.', price: 99, image: '/images/product_thenkuzhal_1767719548617.png', bgColor: '#FFFDF5' },
-    { id: 'kai-murukku', title: 'Kai Murukku', description: 'Hand-twisted artisan spirals.', price: 189, image: '/images/product_kai_murukku_1767719570423.png', bgColor: '#FFE0B2' },
-    { id: 'athirasam', title: 'Athirasam', description: 'Soft jaggery sweet delight.', price: 199, image: '/images/product_athirasam_1767719634660.png', bgColor: '#E1BEE7' },
-    { id: 'seepu-seedai', title: 'Seepu Seedai', description: 'Ridged crispy rice balls.', price: 149, image: '/images/product_seedai_1767719614268.png', bgColor: '#B2DFDB' },
-  ];
+  // Fetch bestsellers from Shopify
+  useEffect(() => {
+    const fetchBestsellers = async () => {
+      if (isShopifyEnabled()) {
+        try {
+          const allProducts = await getAllProducts();
+          // Get first 4 products with best-seller tag, or just first 4
+          const bestsellers = allProducts
+            .filter((p: TransformedProduct) => p.tags?.includes('best-seller'))
+            .slice(0, 4);
+          if (bestsellers.length >= 4) {
+            setFeaturedProducts(bestsellers.map((p: TransformedProduct) => ({
+              id: p.id,
+              slug: p.slug,
+              title: p.title.split(' - ')[0], // Get short title before dash
+              description: p.description,
+              price: p.price,
+              image: p.image,
+              bgColor: p.bgColor || '#FFFDF5',
+            })));
+          } else if (allProducts.length >= 4) {
+            // Fallback to first 4 products
+            setFeaturedProducts(allProducts.slice(0, 4).map((p: TransformedProduct) => ({
+              id: p.id,
+              slug: p.slug,
+              title: p.title.split(' - ')[0],
+              description: p.description,
+              price: p.price,
+              image: p.image,
+              bgColor: p.bgColor || '#FFFDF5',
+            })));
+          }
+        } catch (error) {
+          console.error('Error fetching bestsellers:', error);
+        }
+      }
+    };
+    fetchBestsellers();
+  }, []);
 
-  const handleAddToCart = (product: typeof featuredProducts[0], e: React.MouseEvent) => {
+  const handleAddToCart = (product: typeof staticFeaturedProducts[0], e: React.MouseEvent) => {
     addItem({
       id: product.id,
-      slug: product.id,
+      slug: product.slug || product.id,
       title: product.title,
       description: product.description,
       price: product.price,
@@ -87,7 +137,6 @@ export default function Home() {
             { name: 'Murukku', bg: '#FFE082', image: '/images/cat_murukku_pop.png' },
             { name: 'Sweets', bg: '#FFAB91', image: '/images/cat_sweets_pop.png' },
             { name: 'Seedai', bg: '#80CBC4', image: '/images/cat_seedai_pop.png' },
-            { name: 'Gifts', bg: '#CE93D8', image: '/images/cat_gifts_pop.png' },
           ].map((cat) => (
             <Link href={`/shop?category=${cat.name}`} key={cat.name} className={styles.categoryCard}>
               <div className={styles.categoryImageWrapper} style={{ background: cat.bg }}>
@@ -113,12 +162,14 @@ export default function Home() {
         <div className={styles.productGrid}>
           {featuredProducts.map((product) => (
             <article key={product.id} className={styles.productCard}>
-              <div className={styles.cardImgBg} style={{ background: product.bgColor }}>
-                <Image src={product.image} alt={product.title} width={200} height={200} />
-              </div>
-              <h3>{product.title}</h3>
-              <p className={styles.productDesc}>{product.description}</p>
-              <div className={styles.priceTag}>₹{product.price}</div>
+              <Link href={`/product/${product.slug || product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className={styles.cardImgBg} style={{ background: product.bgColor }}>
+                  <Image src={product.image} alt={product.title} width={200} height={200} />
+                </div>
+                <h3>{product.title}</h3>
+                <p className={styles.productDesc}>{truncateDesc(product.description)}</p>
+                <div className={styles.priceTag}>₹{product.price}</div>
+              </Link>
               <button className={`btn-pop ${styles.addBtn}`} onClick={(e) => handleAddToCart(product, e)}>Add to Cart</button>
             </article>
           ))}

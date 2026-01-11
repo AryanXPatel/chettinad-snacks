@@ -28,7 +28,7 @@ export default function Footer() {
                         <Link href="/shop">All Snacks</Link>
                         <Link href="/shop?category=Murukku">Murukku</Link>
                         <Link href="/shop?category=Sweet">Sweets</Link>
-                        <Link href="/shop?category=Gift">Gifting Bundles</Link>
+                        <Link href="/shop?category=Seedai">Seedai</Link>
                     </nav>
                 </div>
 

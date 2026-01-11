@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState, use, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProductBySlug, products } from '@/lib/products';
+import { getProductBySlug, products as staticProducts, Product } from '@/lib/products';
+import { getProductByHandle, getAllProducts, isShopifyEnabled, TransformedProduct } from '@/lib/shopify';
 import { useCart } from '@/lib/cart';
 import { StarRating, IconLeaf, IconHeart, IconClock } from '@/components/ui/Icons';
 import QuantitySelector from '@/components/ui/QuantitySelector';
@@ -25,22 +26,105 @@ export default function ProductPage({ params }: ProductPageProps) {
 
     const [quantity, setQuantity] = useState(1);
     const [selectedPackSize, setSelectedPackSize] = useState('250g');
-    const { addItem } = useCart();
+    const [product, setProduct] = useState<Product | TransformedProduct | null>(null);
+    const [relatedProducts, setRelatedProducts] = useState<(Product | TransformedProduct)[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>();
+    const { addItem, isLoading: cartLoading } = useCart();
 
-    const product = getProductBySlug(slug);
+    // Fetch product data
+    useEffect(() => {
+        const fetchProduct = async () => {
+            setIsLoading(true);
 
+            if (isShopifyEnabled()) {
+                try {
+                    // Fetch from Shopify
+                    const shopifyProduct = await getProductByHandle(slug);
+                    if (shopifyProduct) {
+                        setProduct(shopifyProduct);
+                        // Set default variant
+                        if (shopifyProduct.variants && shopifyProduct.variants.length > 0) {
+                            setSelectedVariantId(shopifyProduct.variants[0].id);
+                        }
+
+                        // Fetch related products
+                        const allProducts = await getAllProducts();
+                        const related = allProducts
+                            .filter(p => p.category === shopifyProduct.category && p.id !== shopifyProduct.id)
+                            .slice(0, 3);
+                        setRelatedProducts(related);
+                    } else {
+                        // Fall back to static product
+                        const staticProduct = getProductBySlug(slug);
+                        if (staticProduct) {
+                            setProduct(staticProduct);
+                            const related = staticProducts
+                                .filter(p => p.category === staticProduct.category && p.id !== staticProduct.id)
+                                .slice(0, 3);
+                            setRelatedProducts(related);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching product:', error);
+                    // Fall back to static
+                    const staticProduct = getProductBySlug(slug);
+                    if (staticProduct) {
+                        setProduct(staticProduct);
+                        const related = staticProducts
+                            .filter(p => p.category === staticProduct.category && p.id !== staticProduct.id)
+                            .slice(0, 3);
+                        setRelatedProducts(related);
+                    }
+                }
+            } else {
+                // Use static data
+                const staticProduct = getProductBySlug(slug);
+                if (staticProduct) {
+                    setProduct(staticProduct);
+                    const related = staticProducts
+                        .filter(p => p.category === staticProduct.category && p.id !== staticProduct.id)
+                        .slice(0, 3);
+                    setRelatedProducts(related);
+                }
+            }
+
+            setIsLoading(false);
+        };
+
+        fetchProduct();
+    }, [slug]);
+
+    const handleAddToCart = async () => {
+        if (product) {
+            await addItem(product, quantity, selectedPackSize, selectedVariantId);
+        }
+    };
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <div className="container" style={{ padding: '4rem 0' }}>
+                <div className={styles.loadingContainer}>
+                    <div className={styles.loadingImage} />
+                    <div className={styles.loadingDetails}>
+                        <div className={styles.loadingTitle} />
+                        <div className={styles.loadingPrice} />
+                        <div className={styles.loadingDescription} />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Not found
     if (!product) {
         notFound();
     }
 
-    const handleAddToCart = () => {
-        addItem(product, quantity, selectedPackSize);
-    };
-
-    // Get related products (same category, excluding current)
-    const relatedProducts = products
-        .filter(p => p.category === product.category && p.id !== product.id)
-        .slice(0, 3);
+    // Get variants for Shopify products
+    const variants = 'variants' in product ? product.variants : [];
+    const hasVariants = variants && variants.length > 1;
 
     return (
         <>
@@ -98,27 +182,54 @@ export default function ProductPage({ params }: ProductPageProps) {
 
                     <p className={styles.description}>{product.description}</p>
 
-                    {/* Pack Size Selection */}
-                    <div className={styles.optionGroup}>
-                        <span className={styles.optionLabel}>Pack Size</span>
-                        <div className="flex gap-2">
-                            {packSizes.map(size => (
-                                <button
-                                    key={size}
-                                    className={`${styles.sizeBtn} ${selectedPackSize === size ? styles.sizeBtnActive : ''}`}
-                                    onClick={() => setSelectedPackSize(size)}
-                                >
-                                    {size}
-                                </button>
-                            ))}
+                    {/* Variant Selection (Shopify) */}
+                    {hasVariants && (
+                        <div className={styles.optionGroup}>
+                            <span className={styles.optionLabel}>Option</span>
+                            <div className="flex gap-2 flex-wrap">
+                                {variants.map(variant => (
+                                    <button
+                                        key={variant.id}
+                                        className={`${styles.sizeBtn} ${selectedVariantId === variant.id ? styles.sizeBtnActive : ''}`}
+                                        onClick={() => setSelectedVariantId(variant.id)}
+                                        disabled={!variant.available}
+                                        style={!variant.available ? { opacity: 0.5 } : undefined}
+                                    >
+                                        {variant.title}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
+
+                    {/* Pack Size Selection (Static fallback) */}
+                    {!hasVariants && (
+                        <div className={styles.optionGroup}>
+                            <span className={styles.optionLabel}>Pack Size</span>
+                            <div className="flex gap-2">
+                                {packSizes.map(size => (
+                                    <button
+                                        key={size}
+                                        className={`${styles.sizeBtn} ${selectedPackSize === size ? styles.sizeBtnActive : ''}`}
+                                        onClick={() => setSelectedPackSize(size)}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Add to Cart Row */}
                     <div className={styles.addToCartRow}>
                         <QuantitySelector value={quantity} onChange={setQuantity} />
-                        <button className="btn-pop" onClick={handleAddToCart} style={{ flex: 1 }}>
-                            Add to Cart — ₹{product.price * quantity}
+                        <button
+                            className="btn-pop"
+                            onClick={handleAddToCart}
+                            style={{ flex: 1 }}
+                            disabled={cartLoading}
+                        >
+                            {cartLoading ? 'Adding...' : `Add to Cart — ₹${product.price * quantity}`}
                         </button>
                     </div>
 
@@ -164,7 +275,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                     <h2 style={{ marginBottom: '2rem' }}>Perfect Pairs For Your Tea</h2>
                     <div className="product-grid">
                         {relatedProducts.map((p, index) => (
-                            <ProductCard key={p.id} product={p} index={index} />
+                            <ProductCard key={p.id} product={p as Product} index={index} />
                         ))}
                     </div>
                 </section>

@@ -6,7 +6,7 @@ import { products } from '@/lib/products';
 import Link from 'next/link';
 
 // Mock wishlist data (in real app, this would come from user state)
-const wishlistProductIds = ['kai-murukku', 'grand-gift-basket', 'seepu-seedai'];
+const wishlistProductIds = ['kai-murukku', 'athirasam', 'seepu-seedai'];
 const wishlistProducts = products.filter(p => wishlistProductIds.includes(p.id));
 
 export default function WishlistPage() {

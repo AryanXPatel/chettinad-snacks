@@ -7,7 +7,7 @@ export interface Product {
     price: number;
     compareAtPrice?: number;
     image: string;
-    category: 'Murukku' | 'Sweet' | 'Seedai' | 'Gift';
+    category: 'Murukku' | 'Sweet' | 'Seedai';
     bgColor: string;
     accentColor: string;
     badge?: string;
@@ -174,29 +174,7 @@ export const products: Product[] = [
         bgColor: '#D7CCC8',
         accentColor: '#5D4037',
     },
-    // Gift Category
-    {
-        id: 'chettinad-mixer',
-        slug: 'chettinad-mixer',
-        title: 'Chettinad Mixer',
-        description: 'Premium mixed assortment of our best snacks.',
-        price: 179,
-        image: '/images/product_mixer_1767719652586.png',
-        category: 'Gift',
-        bgColor: '#FFECB3',
-        accentColor: '#FF6F00',
-    },
-    {
-        id: 'grand-gift-basket',
-        slug: 'grand-gift-basket',
-        title: 'Grand Gift Basket',
-        description: 'Traditional bamboo hampers for special occasions.',
-        price: 1299,
-        image: '/images/product_gift_basket_1767719670534.png',
-        category: 'Gift',
-        bgColor: '#F06292',
-        accentColor: '#FFFFFF',
-    },
+
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
@@ -216,5 +194,4 @@ export const categories = [
     { name: 'Murukku', slug: 'murukku', bgColor: '#FFE082', image: '/images/cat_murukku_pop.png' },
     { name: 'Sweets', slug: 'sweets', bgColor: '#FFAB91', image: '/images/cat_sweets_pop.png' },
     { name: 'Seedai', slug: 'seedai', bgColor: '#80CBC4', image: '/images/cat_seedai_pop.png' },
-    { name: 'Gifts', slug: 'gifts', bgColor: '#CE93D8', image: '/images/cat_gifts_pop.png' },
 ];
