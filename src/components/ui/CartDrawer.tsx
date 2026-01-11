@@ -9,7 +9,7 @@ import { IconClose, IconParty, IconLock } from '@/components/ui/Icons';
 import styles from './CartDrawer.module.css';
 
 export default function CartDrawer() {
-    const { items, updateQuantity, removeItem, total, itemCount, isOpen, setIsOpen } = useCart();
+    const { items, updateQuantity, removeItem, total, itemCount, isOpen, setIsOpen, checkoutUrl } = useCart();
 
     const shipping = total >= 799 ? 0 : 60;
     const freeShippingThreshold = 799;
@@ -133,7 +133,20 @@ export default function CartDrawer() {
                                     <span>Total</span>
                                     <span>₹{total + shipping}</span>
                                 </div>
-                                <button className="btn-pop" style={{ width: '100%', marginTop: '1rem' }}>
+                                <button
+                                    className="btn-pop"
+                                    style={{ width: '100%', marginTop: '1rem' }}
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        if (checkoutUrl) {
+                                            // Go directly to Shopify checkout
+                                            window.location.href = checkoutUrl;
+                                        } else {
+                                            // Fallback to cart page
+                                            window.location.href = '/cart';
+                                        }
+                                    }}
+                                >
                                     Checkout
                                 </button>
                                 <Link

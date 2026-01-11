@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/lib/cart';
-import { IconCart, IconGift, IconBook, IconChat, IconSnack } from '@/components/ui/Icons';
+import { useAuth } from '@/lib/AuthContext';
+import { IconCart, IconGift, IconBook, IconChat, IconSnack, IconUser } from '@/components/ui/Icons';
 import styles from './Header.module.css';
 
 export default function Header() {
     const { itemCount, setIsOpen } = useCart();
+    const { customer, isLoggedIn, isLoading: authLoading } = useAuth();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     // Prevent body scroll when mobile menu is open
@@ -38,6 +40,9 @@ export default function Header() {
 
     const closeMenu = () => setMobileMenuOpen(false);
 
+    // Get display name for logged in user
+    const displayName = customer?.firstName || 'Account';
+
     return (
         <header className={styles.header}>
             <div className="container flex justify-between align-center">
@@ -62,7 +67,16 @@ export default function Header() {
 
                 {/* Desktop Actions */}
                 <div className={`flex gap-4 align-center ${styles.desktopActions}`}>
-                    <Link href="/login" className="nav-link">Log In</Link>
+                    {!authLoading && (
+                        isLoggedIn ? (
+                            <Link href="/account" className={`nav-link ${styles.accountLink}`}>
+                                <IconUser size={18} />
+                                <span>{displayName}</span>
+                            </Link>
+                        ) : (
+                            <Link href="/login" className="nav-link">Log In</Link>
+                        )
+                    )}
                     <button
                         className="btn-pop btn-pop--small"
                         onClick={() => setIsOpen(true)}
@@ -122,9 +136,17 @@ export default function Header() {
                     </Link>
                 </div>
                 <div className={styles.drawerFooter}>
-                    <Link href="/login" className={styles.drawerLoginBtn} onClick={closeMenu}>
-                        Log In
-                    </Link>
+                    {!authLoading && (
+                        isLoggedIn ? (
+                            <Link href="/account" className={styles.drawerLoginBtn} onClick={closeMenu}>
+                                <IconUser size={18} /> {displayName}
+                            </Link>
+                        ) : (
+                            <Link href="/login" className={styles.drawerLoginBtn} onClick={closeMenu}>
+                                Log In
+                            </Link>
+                        )
+                    )}
                 </div>
             </nav>
         </header>

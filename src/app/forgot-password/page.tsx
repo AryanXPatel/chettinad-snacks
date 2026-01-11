@@ -1,91 +1,97 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
-import styles from './page.module.css';
+import { motion } from 'framer-motion';
+import { recoverCustomer } from '@/lib/shopify/auth';
+import { isShopifyEnabled } from '@/lib/shopify';
+import styles from '../login/page.module.css';
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // In production, this would call an API
-        setSubmitted(true);
+        setError('');
+        setIsSubmitting(true);
+
+        if (!isShopifyEnabled()) {
+            setError('Password recovery is not available at this time.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        const result = await recoverCustomer(email);
+
+        if (result.success) {
+            setSuccess(true);
+        } else {
+            setError(result.error || 'Failed to send recovery email. Please try again.');
+        }
+
+        setIsSubmitting(false);
     };
 
     return (
-        <div className={styles.splitScreen}>
-            {/* Visual Side */}
-            <div className={styles.visualSide}>
-                <Link href="/login" className={styles.backLink}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                    </svg>
-                    Back to Login
-                </Link>
-                <div className={styles.visualContent}>
-                    <h2>Forgot Password?</h2>
-                    <p>No worries, we{"'"}ll help you reset it.</p>
-                </div>
-            </div>
-
-            {/* Form Side */}
+        <div className={styles.authPage}>
             <motion.div
-                className={styles.formSide}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                className={styles.authCard}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
             >
-                {!submitted ? (
-                    <>
-                        <h1>Reset Password</h1>
-                        <p className={styles.subtitle}>
-                            Enter your email address and we{"'"}ll send you a link to reset your password.
+                <div className={styles.authHeader}>
+                    <h1>Reset Password</h1>
+                    <p>We&apos;ll send you a reset link</p>
+                </div>
+
+                {success ? (
+                    <div className={styles.successBox}>
+                        <strong>✅ Check your email!</strong>
+                        <p style={{ marginTop: '0.5rem', marginBottom: 0 }}>
+                            We&apos;ve sent a password reset link to <strong>{email}</strong>.
                         </p>
-
-                        <form className={styles.form} onSubmit={handleSubmit}>
-                            <div className={styles.formGroup}>
-                                <label>Email Address</label>
-                                <input
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    className="form-input"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <button type="submit" className="btn-pop" style={{ width: '100%', borderRadius: '8px' }}>
-                                Send Reset Link
-                            </button>
-                        </form>
-
-                        <p className={styles.loginPrompt}>
-                            Remember your password?{' '}
-                            <Link href="/login" className={styles.loginLink}>Log in</Link>
+                        <p style={{ marginTop: '0.75rem', marginBottom: 0, fontSize: '0.9rem', color: '#047857' }}>
+                            📧 Open the email and click the reset link to create a new password.
                         </p>
-                    </>
+                    </div>
                 ) : (
-                    <motion.div
-                        className={styles.successState}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                    >
-                        <div className={styles.successIcon}>✓</div>
-                        <h2>Check Your Email</h2>
-                        <p className={styles.successText}>
-                            We{"'"}ve sent a password reset link to <strong>{email}</strong>.
-                            Please check your inbox and follow the instructions.
-                        </p>
-                        <Link href="/login" className="btn-pop" style={{ marginTop: '2rem' }}>
-                            Back to Login
-                        </Link>
-                    </motion.div>
+                    <form onSubmit={handleSubmit} className={styles.authForm}>
+                        {error && (
+                            <div className={styles.errorBox}>
+                                {error}
+                            </div>
+                        )}
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="email">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="you@example.com"
+                                required
+                                autoComplete="email"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className={`btn-pop ${styles.submitBtn}`}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                        </button>
+                    </form>
                 )}
+
+                <div className={styles.authFooter}>
+                    <p>Remember your password? <Link href="/login">Sign in</Link></p>
+                </div>
             </motion.div>
         </div>
     );

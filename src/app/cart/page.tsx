@@ -1,19 +1,34 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/lib/cart';
+import { useAuth } from '@/lib/AuthContext';
 import { IconParty, IconLock } from '@/components/ui/Icons';
 import styles from './page.module.css';
 
 export default function CartPage() {
-    const { items, updateQuantity, removeItem, total, itemCount } = useCart();
+    const { items, updateQuantity, removeItem, total, itemCount, checkoutUrl } = useCart();
+    const { isLoggedIn, customer } = useAuth();
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
     const shipping = total >= 799 ? 0 : 60;
     const freeShippingThreshold = 799;
     const progressPercentage = Math.min((total / freeShippingThreshold) * 100, 100);
     const amountToFreeShipping = Math.max(freeShippingThreshold - total, 0);
+
+    const handleCheckout = () => {
+        if (!checkoutUrl) {
+            alert('Please add items to your cart first.');
+            return;
+        }
+
+        setIsCheckingOut(true);
+        // Redirect to Shopify checkout
+        window.location.href = checkoutUrl;
+    };
 
     if (items.length === 0) {
         return (
@@ -23,7 +38,7 @@ export default function CartPage() {
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <h1 style={{ marginBottom: '1rem' }}>Your Cart is Empty</h1>
-                    <p style={{ color: '#666', marginBottom: '2rem' }}>Looks like you haven't added any cravings yet!</p>
+                    <p style={{ color: '#666', marginBottom: '2rem' }}>Looks like you haven&apos;t added any cravings yet!</p>
                     <Link href="/shop" className="btn-pop">Start Shopping</Link>
                 </motion.div>
             </div>
@@ -37,9 +52,9 @@ export default function CartPage() {
             {/* Free Shipping Progress */}
             <div className={styles.shippingProgress}>
                 {amountToFreeShipping > 0 ? (
-                    <p><strong>Free Shipping:</strong> You're ₹{amountToFreeShipping} away from free shipping!</p>
+                    <p><strong>Free Shipping:</strong> You&apos;re ₹{amountToFreeShipping} away from free shipping!</p>
                 ) : (
-                    <p><strong><IconParty size={16} style={{ color: 'var(--color-turmeric)' }} /> Congrats!</strong> You've unlocked free shipping!</p>
+                    <p><strong><IconParty size={16} style={{ color: 'var(--color-turmeric)' }} /> Congrats!</strong> You&apos;ve unlocked free shipping!</p>
                 )}
                 <div className={styles.progressBar}>
                     <div className={styles.progressFill} style={{ width: `${progressPercentage}%` }} />
@@ -103,6 +118,13 @@ export default function CartPage() {
                 >
                     <h3 style={{ marginBottom: '1.5rem' }}>Order Summary</h3>
 
+                    {/* Show logged in status */}
+                    {isLoggedIn && customer && (
+                        <div className={styles.customerInfo}>
+                            <span>Ordering as <strong>{customer.firstName || customer.email}</strong></span>
+                        </div>
+                    )}
+
                     <div className={styles.summaryRow}>
                         <span>Subtotal ({itemCount} items)</span>
                         <span>₹{total}</span>
@@ -118,9 +140,20 @@ export default function CartPage() {
                         <span>₹{total + shipping}</span>
                     </div>
 
-                    <button className="btn-pop" style={{ width: '100%' }}>
-                        Checkout
+                    <button
+                        className="btn-pop"
+                        style={{ width: '100%' }}
+                        onClick={handleCheckout}
+                        disabled={isCheckingOut || !checkoutUrl}
+                    >
+                        {isCheckingOut ? 'Redirecting...' : 'Proceed to Checkout'}
                     </button>
+
+                    {!isLoggedIn && (
+                        <div className={styles.loginPrompt}>
+                            <Link href="/login">Log in</Link> for faster checkout
+                        </div>
+                    )}
 
                     <div className={styles.secureNote}>
                         <IconLock size={14} /> Secure Checkout

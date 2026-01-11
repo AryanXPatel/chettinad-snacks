@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/lib/cart";
+import { AuthProvider } from "@/lib/AuthContext";
 import CartDrawer from "@/components/ui/CartDrawer";
 
 const fraunces = Fraunces({
@@ -39,12 +40,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fraunces.variable} ${dmSans.variable}`}>
-        <CartProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <CartDrawer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <CartDrawer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

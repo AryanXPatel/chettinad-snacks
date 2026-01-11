@@ -81,6 +81,14 @@ export const IconSnack: React.FC<IconProps> = ({ size = 18, color, className, st
     </svg>
 );
 
+// User/account icon
+export const IconUser: React.FC<IconProps> = ({ size = 18, color, className, style }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color || 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style} aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+    </svg>
+);
+
 // Heart icon
 export const IconHeart: React.FC<IconProps> = ({ size = 16, color, className, style }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill={color || 'currentColor'} className={className} style={style} aria-hidden="true">

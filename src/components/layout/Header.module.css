@@ -34,6 +34,12 @@
     display: flex;
 }
 
+.accountLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Mobile Elements - Hidden on Desktop */
 .mobileActions {
     display: none;
