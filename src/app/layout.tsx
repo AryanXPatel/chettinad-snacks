@@ -43,7 +43,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <Header />
-            <main>{children}</main>
+            <main style={{ paddingTop: '72px' }}>{children}</main>
             <Footer />
             <CartDrawer />
           </CartProvider>

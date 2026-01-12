@@ -54,6 +54,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -63,6 +64,8 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
 }
 
 img {
@@ -326,7 +329,12 @@ h3 {
     box-shadow: 0 0 0 3px rgba(240, 173, 78, 0.15);
 }
 
-/* Marquee */
+/* Marquee - wrapped in overflow container */
+.marquee-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
 .marquee-strip {
     background: var(--color-turmeric);
     color: var(--color-coffee);
@@ -337,6 +345,8 @@ h3 {
     font-weight: 800;
     font-size: 1.5rem;
     transform: rotate(-1deg) scale(1.02);
+    margin: 0 -2%; /* compensate for scale overflow */
+    width: 104%;
 }
 
 .marquee-content {
