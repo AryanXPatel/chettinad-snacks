@@ -9,7 +9,7 @@ import { IconClose, IconParty, IconLock } from '@/components/ui/Icons';
 import styles from './CartDrawer.module.css';
 
 export default function CartDrawer() {
-    const { items, updateQuantity, removeItem, total, itemCount, isOpen, setIsOpen, checkoutUrl } = useCart();
+    const { items, updateQuantity, removeItem, total, itemCount, isOpen, setIsOpen, checkoutUrl, isLoading } = useCart();
 
     const shipping = total >= 799 ? 0 : 60;
     const freeShippingThreshold = 799;
@@ -137,17 +137,15 @@ export default function CartDrawer() {
                                     className="btn-pop"
                                     style={{ width: '100%', marginTop: '1rem' }}
                                     onClick={() => {
-                                        setIsOpen(false);
                                         if (checkoutUrl) {
+                                            setIsOpen(false);
                                             // Go directly to Shopify checkout
                                             window.location.href = checkoutUrl;
-                                        } else {
-                                            // Fallback to cart page
-                                            window.location.href = '/cart';
                                         }
                                     }}
+                                    disabled={isLoading || !checkoutUrl}
                                 >
-                                    Checkout
+                                    {isLoading ? 'Adding...' : !checkoutUrl ? 'Preparing...' : 'Checkout'}
                                 </button>
                                 <Link
                                     href="/cart"

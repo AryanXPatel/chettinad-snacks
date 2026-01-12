@@ -126,13 +126,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     ) => {
         setIsLoading(true);
         try {
-            if (isShopifyEnabled() && variantId) {
+            // Auto-detect variantId from product if not provided
+            let effectiveVariantId = variantId;
+            if (!effectiveVariantId && 'variants' in product && product.variants?.length > 0) {
+                effectiveVariantId = product.variants[0].id;
+            }
+
+            if (isShopifyEnabled() && effectiveVariantId) {
                 // Use Shopify Cart API
                 let cart: ShopifyCart | null;
 
                 if (!cartId) {
                     // Create new cart
-                    cart = await createCart(variantId, quantity);
+                    cart = await createCart(effectiveVariantId, quantity);
                     if (cart) {
                         setCartId(cart.id);
                         localStorage.setItem(CART_ID_KEY, cart.id);
@@ -141,7 +147,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                     }
                 } else {
                     // Add to existing cart
-                    cart = await shopifyAddToCart(cartId, variantId, quantity);
+                    cart = await shopifyAddToCart(cartId, effectiveVariantId, quantity);
                     if (cart) {
                         setCheckoutUrl(cart.checkoutUrl);
                         syncCartItems(cart);
@@ -160,7 +166,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                         return updated;
                     }
 
-                    return [...prev, { product, quantity, packSize, variantId }];
+                    return [...prev, { product, quantity, packSize, variantId: effectiveVariantId }];
                 });
             }
         } catch (error) {
