@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/lib/cart';
-import { getAllProducts, isShopifyEnabled, TransformedProduct } from '@/lib/shopify';
+import { getAllProducts, getProductsByCollection, isShopifyEnabled, TransformedProduct } from '@/lib/shopify';
 import { IconStarFilled, IconLeaf, IconExplosion, IconWarning, StarRating } from '@/components/ui/Icons';
 import styles from './page.module.css';
 
@@ -28,17 +28,15 @@ export default function Home() {
   const { addItem } = useCart();
   const [featuredProducts, setFeaturedProducts] = useState(staticFeaturedProducts);
 
-  // Fetch bestsellers from Shopify
+  // Fetch bestsellers from Shopify best-sellers collection
   useEffect(() => {
     const fetchBestsellers = async () => {
       if (isShopifyEnabled()) {
         try {
-          const allProducts = await getAllProducts();
-          // Get first 4 products with best-seller tag, or just first 4
-          const bestsellers = allProducts
-            .filter((p: TransformedProduct) => p.tags?.includes('best-seller'))
-            .slice(0, 4);
-          if (bestsellers.length >= 4) {
+          // Fetch directly from the best-sellers collection
+          const bestsellers = await getProductsByCollection('best-sellers');
+
+          if (bestsellers.length > 0) {
             setFeaturedProducts(bestsellers.map((p: TransformedProduct) => ({
               id: p.id,
               slug: p.slug,
@@ -48,17 +46,24 @@ export default function Home() {
               image: p.image,
               bgColor: p.bgColor || '#FFFDF5',
             })));
-          } else if (allProducts.length >= 4) {
-            // Fallback to first 4 products
-            setFeaturedProducts(allProducts.slice(0, 4).map((p: TransformedProduct) => ({
-              id: p.id,
-              slug: p.slug,
-              title: p.title.split(' - ')[0],
-              description: p.description,
-              price: p.price,
-              image: p.image,
-              bgColor: p.bgColor || '#FFFDF5',
-            })));
+          } else {
+            // Fallback: try getting products with best-seller tag
+            const allProducts = await getAllProducts();
+            const taggedBestsellers = allProducts.filter((p: TransformedProduct) =>
+              p.tags?.includes('best-seller')
+            );
+
+            if (taggedBestsellers.length > 0) {
+              setFeaturedProducts(taggedBestsellers.map((p: TransformedProduct) => ({
+                id: p.id,
+                slug: p.slug,
+                title: p.title.split(' - ')[0],
+                description: p.description,
+                price: p.price,
+                image: p.image,
+                bgColor: p.bgColor || '#FFFDF5',
+              })));
+            }
           }
         } catch (error) {
           console.error('Error fetching bestsellers:', error);
