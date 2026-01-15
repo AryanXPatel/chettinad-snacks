@@ -67,10 +67,11 @@ export default function TermsPage() {
                 </section>
 
                 <section className={styles.section}>
-                    <h2>6. Returns and Refunds</h2>
+                    <h2>6. Refunds</h2>
                     <p>
-                        Our return policy is designed to ensure your satisfaction. Please review our
-                        <Link href="/returns" className={styles.link}> Returns Policy</Link> for
+                        We have a 100% Freshness Guarantee. If your snacks arrive damaged, wrong, or with
+                        quality issues, contact us within 48 hours with photos and we&apos;ll arrange a
+                        refund or replacement. Please <Link href="/contact" className={styles.link}>contact us</Link> for
                         eligibility and procedures.
                     </p>
                 </section>

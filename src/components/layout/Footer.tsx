@@ -48,7 +48,6 @@ export default function Footer() {
                     <h3 className={styles.columnTitle}>Help</h3>
                     <nav className={styles.linkList}>
                         <Link href="/shipping">Shipping Policy</Link>
-                        <Link href="/returns">Returns</Link>
                         <Link href="/faq">FAQ</Link>
                     </nav>
                 </div>

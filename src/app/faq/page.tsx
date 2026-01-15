@@ -56,19 +56,19 @@ const faqData: FAQItem[] = [
         answer: 'Our snacks are made with minimal, natural preservatives. We prioritize freshness and traditional recipes. Some products may contain salt as a natural preservative.'
     },
 
-    // Payment & Returns
+    // Payment
     {
-        category: 'Payment & Returns',
+        category: 'Payment',
         question: 'What payment methods do you accept?',
         answer: 'We accept all major payment methods: Credit/Debit cards (Visa, Mastercard, RuPay), UPI (GPay, PhonePe, Paytm), Net Banking, and Cash on Delivery (for eligible locations).'
     },
     {
-        category: 'Payment & Returns',
+        category: 'Payment',
         question: 'What is your return policy?',
         answer: 'We have a 100% Freshness Guarantee. If your snacks arrive damaged, wrong, or with quality issues, contact us within 48 hours with photos and we\'ll arrange a refund or replacement.'
     },
     {
-        category: 'Payment & Returns',
+        category: 'Payment',
         question: 'How long do refunds take?',
         answer: 'Once approved, refunds are processed within 24-48 hours. UPI/wallet refunds appear within 24-48 hours, while bank transfers may take 5-7 business days.'
     },
